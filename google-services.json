@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "345901477469",
+    "project_id": "careerapp-b6cfd",
+    "storage_bucket": "careerapp-b6cfd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345901477469:android:bf9a5ee9834d10a8d767b4",
+        "android_client_info": {
+          "package_name": "com.g009.careerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF5btB5xCAzCchltJtTxbFuGQhSY9c0tk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import axios from 'axios';
+import { auth, db } from '../../firebase'; // Import Firebase auth and Firestore
+import { createUserWithEmailAndPassword } from '../../node_modules/firebase/auth'; // Firebase Auth
+import { collection, addDoc } from '../../node_modules/firebase/firestore'; // Firestore functions
 
-const StudentLogin = ({ navigation }) => {
+const StudentSignup = ({ navigation }) => {
   const [studentID, setStudentID] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
+  const handleSignup = async () => {
+    // Create an email from the student ID for Firebase Auth
+    const email = `${studentID}@mseuf.edu.ph`;
+
     try {
-      const response = await axios.get('http://localhost:5000/api/students'); //paltan ng IP ng iyong device if ever na ibang laptop gagamitin
-      const validIDs = response.data;
-      //logic nung validation
-      if (validIDs.includes(studentID)) {
-        navigation.navigate('StudentHome');
-      } else {
-        Alert.alert('Invalid credentials', 'Please check your Student ID.');
-      }
+      // Register the student using Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // After successful signup, store student credentials in Firestore
+      await addDoc(collection(db, 'students'), {
+        studentID,
+        email: user.email,
+        uid: user.uid // Store user ID from Firebase Authentication
+      });
+
+      // Navigate to the StudentHome screen after successful registration
+      navigation.navigate('StudentHome');
     } catch (error) {
-      console.log(error);
-      Alert.alert('Error', 'Something went wrong. Please try again later.');
+      console.error(error);
+      Alert.alert('Registration failed', error.message);
     }
   };
 
@@ -29,8 +40,17 @@ const StudentLogin = ({ navigation }) => {
         value={studentID}
         onChangeText={setStudentID}
         placeholder="Enter Student ID"
+        autoCapitalize="characters"
       />
-      <Button title="Login" onPress={handleLogin} />
+      <Text style={styles.label}>Password</Text>
+      <TextInput
+        style={styles.input}
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Enter Password"
+        secureTextEntry
+      />
+      <Button title="Sign Up" onPress={handleSignup} />
     </View>
   );
 };
@@ -41,4 +61,4 @@ const styles = StyleSheet.create({
   input: { borderWidth: 1, padding: 8, marginBottom: 16, borderRadius: 4 },
 });
 
-export default StudentLogin;
+export default StudentSignup;

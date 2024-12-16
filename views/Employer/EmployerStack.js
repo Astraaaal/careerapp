@@ -29,7 +29,7 @@ const EmployerStack = () => {
             setIsLoggingOut(true);
             navigation.reset({
               index: 0,
-              routes: [{ name: 'ChoosePath' }],
+              routes: [{ name: 'ChooseUser' }],
             });
           },
         },

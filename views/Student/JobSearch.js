@@ -5,6 +5,8 @@ import { useJobContext } from '../../JobContext';
 const JobSearch = () => {
   const { jobPosts } = useJobContext();
 
+  console.log(jobPosts);
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Job Listings</Text>
