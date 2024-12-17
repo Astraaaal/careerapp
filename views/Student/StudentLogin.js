@@ -1,30 +1,26 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import { auth, db } from '../../firebase'; // Import Firebase auth and Firestore
-import { createUserWithEmailAndPassword } from '../../node_modules/firebase/auth'; // Firebase Auth
-import { collection, addDoc } from '../../node_modules/firebase/firestore'; // Firestore functions
+import { auth, db } from '../../firebase';
+import { createUserWithEmailAndPassword } from '../../node_modules/firebase/auth';
+import { collection, addDoc } from '../../node_modules/firebase/firestore';
 
 const StudentSignup = ({ navigation }) => {
   const [studentID, setStudentID] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignup = async () => {
-    // Create an email from the student ID for Firebase Auth
     const email = `${studentID}@mseuf.edu.ph`;
 
     try {
-      // Register the student using Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // After successful signup, store student credentials in Firestore
       await addDoc(collection(db, 'students'), {
         studentID,
         email: user.email,
-        uid: user.uid // Store user ID from Firebase Authentication
+        uid: user.uid
       });
 
-      // Navigate to the StudentHome screen after successful registration
       navigation.navigate('StudentHome');
     } catch (error) {
       console.error(error);

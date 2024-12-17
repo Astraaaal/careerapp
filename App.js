@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import StudentLogin from './views/Student/StudentStack'; // Import Student login component
-import EmployerStack from './views/Employer/EmployerStack'; // Import Employer stack or login component
+import StudentLogin from './views/Student/StudentStack';
+import EmployerStack from './views/Employer/EmployerStack';
 import { JobProvider } from './JobContext';
 
-// Create Stack Navigator
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -14,32 +14,33 @@ export default function App() {
     <JobProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="ChooseUser">
-          {/* Stack screen directly with the user selection buttons */}
           <Stack.Screen
             name="ChooseUser"
             component={ChooseUserScreen}
-            options={{ headerShown: false }} // Hide the header for this screen
+            options={{ headerShown: false }}
           />
 
-          {/* StudentStack screen */}
           <Stack.Screen
             name="StudentStack"
             component={StudentLogin}
             options={{
-              title: 'Student Login',
+              title: '',
               headerStyle: { backgroundColor: '#1E90FF' },
               headerTintColor: '#fff',
+              headerShown: true,
+              headerLeft: null
             }}
           />
 
-          {/* EmployerStack screen */}
           <Stack.Screen
             name="EmployerStack"
             component={EmployerStack}
             options={{
-              title: 'Employer Login',
+              title: '',
               headerStyle: { backgroundColor: '#1E90FF' },
               headerTintColor: '#fff',
+              headerShown: true,
+              headerLeft: null
             }}
           />
         </Stack.Navigator>
@@ -48,14 +49,12 @@ export default function App() {
   );
 }
 
-// The Choose User screen with buttons to navigate to either StudentLogin or EmployerStack
 const ChooseUserScreen = ({ navigation }) => {
   return (
     <JobProvider>
       <View style={styles.container}>
         <Text style={styles.title}>Choose User</Text>
 
-        {/* Button to navigate to StudentLogin */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('StudentStack')}>
@@ -63,7 +62,6 @@ const ChooseUserScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Student</Text>
         </TouchableOpacity>
 
-        {/* Button to navigate to EmployerStack */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('EmployerStack')}>
@@ -75,7 +73,6 @@ const ChooseUserScreen = ({ navigation }) => {
   );
 };
 
-// Styles for the buttons and layout
 const styles = StyleSheet.create({
   container: {
     flex: 1,
